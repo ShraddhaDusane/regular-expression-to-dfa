@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Regex to DFA Converter | AutomataLab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                Σ
+            </div>
+
+            <div>
+                <h1>AutomataLab</h1>
+                <p>Regex → DFA Studio</p>
+            </div>
+
+        </div>
+
+        <nav class="navigation">
+
+            <button
+                class="nav-button active"
+                data-section="converter"
+            >
+                <span>⚙</span>
+                Converter
+            </button>
+
+            <button
+                class="nav-button"
+                data-section="syntax"
+            >
+                <span>?</span>
+                Syntax Guide
+            </button>
+
+            <button
+                class="nav-button"
+                data-section="about"
+            >
+                <span>ⓘ</span>
+                About
+            </button>
+
+        </nav>
+
+
+        <div class="supported-box">
+
+            <h4>SUPPORTED OPERATORS</h4>
+
+            <div class="operator-list">
+
+                <span>| Union</span>
+                <span>· Concatenation</span>
+                <span>* Kleene Star</span>
+                <span>+ One or More</span>
+                <span>? Optional</span>
+                <span>( ) Grouping</span>
+                <span>ε Epsilon</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="sidebar-footer">
+            AutomataLab
+            <br>
+            Theory of Computation
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <header class="top-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    THEORY OF COMPUTATION
+                </span>
+
+                <h2>
+                    Regular Expression
+                    <span>→</span>
+                    DFA Converter
+                </h2>
+
+                <p>
+                    Convert regular expressions into deterministic finite automata,
+                    visualize transitions, and test strings.
+                </p>
+
+            </div>
+
+
+            <div class="status">
+
+                <span class="status-dot"></span>
+
+                <span id="statusText">
+                    Ready
+                </span>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= CONVERTER ================= -->
+
+        <section
+            id="converter"
+            class="page-section active"
+        >
+
+            <!-- INPUT + SUMMARY -->
+
+            <div class="top-grid">
+
+
+                <!-- REGEX INPUT -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                1. Enter Regular Expression
+                            </h3>
+
+                            <p>
+                                Use standard regex operators.
+                            </p>
+
+                        </div>
+
+                        <button
+                            class="secondary-button"
+                            id="clearButton"
+                        >
+                            Clear
+                        </button>
+
+                    </div>
+
+
+                    <div class="regex-input-container">
+
+                        <div class="sigma">
+                            Σ
+                        </div>
+
+                        <input
+                            id="regexInput"
+                            type="text"
+                            value="(a|b)*abb"
+                            placeholder="Enter regular expression..."
+                            autocomplete="off"
+                            spellcheck="false"
+                        >
+
+                        <button
+                            class="primary-button"
+                            id="convertButton"
+                        >
+                            Convert
+                            <span>→</span>
+                        </button>
+
+                    </div>
+
+
+                    <div class="examples">
+
+                        <span>Examples:</span>
+
+                        <button data-example="a*b">
+                            a*b
+                        </button>
+
+                        <button data-example="(a|b)*abb">
+                            (a|b)*abb
+                        </button>
+
+                        <button data-example="a(b|c)*">
+                            a(b|c)*
+                        </button>
+
+                        <button data-example="(0|1)*">
+                            (0|1)*
+                        </button>
+
+                        <button data-example="ab*">
+                            ab*
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        id="errorBox"
+                        class="error-box hidden"
+                    ></div>
+
+                </div>
+
+
+                <!-- SUMMARY -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Automaton Summary
+                            </h3>
+
+                            <p>
+                                Generated DFA information.
+                            </p>
+
+                        </div>
+
+                        <span class="live-badge">
+                            LIVE
+                        </span>
+
+                    </div>
+
+
+                    <div class="statistics">
+
+                        <div class="stat-box">
+
+                            <span>
+                                Alphabet
+                            </span>
+
+                            <strong id="alphabetStat">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="stat-box">
+
+                            <span>
+                                DFA States
+                            </span>
+
+                            <strong id="statesStat">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="stat-box">
+
+                            <span>
+                                Accepting
+                            </span>
+
+                            <strong id="acceptStat">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="stat-box">
+
+                            <span>
+                                Transitions
+                            </span>
+
+                            <strong id="transitionStat">
+                                —
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= DFA DIAGRAM ================= -->
+
+            <div class="card diagram-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            2. DFA Visualization
+                        </h3>
+
+                        <p>
+                            Visual representation of the generated DFA.
+                        </p>
+
+                    </div>
+
+
+                    <div class="diagram-controls">
+
+                        <button id="zoomOut">
+                            −
+                        </button>
+
+                        <span id="zoomText">
+                            100%
+                        </span>
+
+                        <button id="zoomIn">
+                            +
+                        </button>
+
+                        <button id="fitButton">
+                            Fit
+                        </button>
+
+                        <button id="exportSVG">
+                            Export SVG
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="diagram"
+                    class="diagram"
+                >
+
+                    <div class="empty-diagram">
+
+                        <div class="empty-icon">
+                            Σ
+                        </div>
+
+                        <h3>
+                            DFA will appear here
+                        </h3>
+
+                        <p>
+                            Enter a regular expression and click Convert.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= BOTTOM GRID ================= -->
+
+            <div class="bottom-grid">
+
+
+                <!-- TABLE -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                3. DFA Transition Table
+                            </h3>
+
+                            <p>
+                                Complete deterministic transition table.
+                            </p>
+
+                        </div>
+
+                        <button
+                            class="secondary-button"
+                            id="exportCSV"
+                        >
+                            CSV
+                        </button>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table id="dfaTable">
+
+                            <thead>
+                                <tr>
+                                    <th>State</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td colspan="2">
+                                        No DFA generated
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STRING SIMULATOR -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                4. Test a String
+                            </h3>
+
+                            <p>
+                                Simulate the DFA.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="test-container">
+
+                        <input
+                            id="testInput"
+                            type="text"
+                            placeholder="Enter string e.g. abb"
+                            autocomplete="off"
+                        >
+
+                        <button
+                            class="primary-button"
+                            id="testButton"
+                        >
+                            Simulate
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        id="testResult"
+                        class="test-result idle"
+                    >
+                        Enter a string and simulate it.
+                    </div>
+
+
+                    <div
+                        id="trace"
+                        class="trace"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= CONVERSION DETAILS ================= -->
+
+            <div class="card details-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            5. Conversion Details
+                        </h3>
+
+                        <p>
+                            Internal construction information.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="details-grid">
+
+                    <div class="detail-item">
+
+                        <label>
+                            Regular Expression
+                        </label>
+
+                        <div id="detailRegex">
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <label>
+                            Postfix Expression
+                        </label>
+
+                        <div id="detailPostfix">
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <label>
+                            NFA
+                        </label>
+
+                        <div id="detailNFA">
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <label>
+                            DFA
+                        </label>
+
+                        <div id="detailDFA">
+                            —
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SYNTAX GUIDE ================= -->
+
+        <section
+            id="syntax"
+            class="page-section"
+        >
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            Regular Expression Syntax
+                        </h3>
+
+                        <p>
+                            Operators supported by the converter.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="syntax-grid">
+
+                    <div class="syntax-card">
+
+                        <code>a|b</code>
+
+                        <h4>
+                            Union
+                        </h4>
+
+                        <p>
+                            Accepts either <b>a</b> or <b>b</b>.
+                        </p>
+
+                    </div>
+
+
+                    <div class="syntax-card">
+
+                        <code>ab</code>
+
+                        <h4>
+                            Concatenation
+                        </h4>
+
+                        <p>
+                            Accepts a followed by b.
+                        </p>
+
+                    </div>
+
+
+                    <div class="syntax-card">
+
+                        <code>a*</code>
+
+                        <h4>
+                            Kleene Star
+                        </h4>
+
+                        <p>
+                            Zero or more occurrences of a.
+                        </p>
+
+                    </div>
+
+
+                    <div class="syntax-card">
+
+                        <code>a+</code>
+
+                        <h4>
+                            One or More
+                        </h4>
+
+                        <p>
+                            One or more occurrences of a.
+                        </p>
+
+                    </div>
+
+
+                    <div class="syntax-card">
+
+                        <code>a?</code>
+
+                        <h4>
+                            Optional
+                        </h4>
+
+                        <p>
+                            Zero or one occurrence of a.
+                        </p>
+
+                    </div>
+
+
+                    <div class="syntax-card">
+
+                        <code>(ab|c)*</code>
+
+                        <h4>
+                            Grouping
+                        </h4>
+
+                        <p>
+                            Parentheses control precedence.
+                        </p>
+
+                    </div>
+
+
+                    <div class="syntax-card">
+
+                        <code>ε</code>
+
+                        <h4>
+                            Epsilon
+                        </h4>
+
+                        <p>
+                            Represents the empty string.
+                        </p>
+
+                    </div>
+
+
+                    <div class="syntax-card">
+
+                        <code>·</code>
+
+                        <h4>
+                            Explicit Concatenation
+                        </h4>
+
+                        <p>
+                            You may write a·b explicitly.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ABOUT ================= -->
+
+        <section
+            id="about"
+            class="page-section"
+        >
+
+            <div class="card about-card">
+
+                <div class="about-logo">
+                    Σ
+                </div>
+
+                <h2>
+                    AutomataLab
+                </h2>
+
+                <p>
+                    A browser-based educational tool for converting
+                    regular expressions into deterministic finite automata.
+                </p>
+
+
+                <div class="about-features">
+
+                    <span>
+                        ✓ Thompson NFA Construction
+                    </span>
+
+                    <span>
+                        ✓ ε-Closure
+                    </span>
+
+                    <span>
+                        ✓ Subset Construction
+                    </span>
+
+                    <span>
+                        ✓ DFA Simulation
+                    </span>
+
+                    <span>
+                        ✓ SVG Export
+                    </span>
+
+                    <span>
+                        ✓ CSV Export
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
