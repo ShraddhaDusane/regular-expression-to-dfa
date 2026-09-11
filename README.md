@@ -12,21 +12,21 @@ The project demonstrates the conversion process:
 
 The **Regular Expression to DFA Converter** is an interactive web application designed to help students understand and visualize the conversion of regular expressions into finite automata.
 
-Users can enter a valid regular expression, generate the corresponding DFA, view its transition table and states, and test whether a given input string is accepted or rejected by the generated DFA.
+Users can enter a valid regular expression, generate the corresponding DFA, view its transition table and states, and test whether a given input string is accepted or rejected.
 
 ---
 
 ## Features
 
-* Enter a Regular Expression
-* Convert Regular Expression to NFA
-* Convert NFA to DFA
-* Generate DFA transition table
-* Display DFA states
-* Identify start state
-* Identify final/accepting states
-* Test strings using the generated DFA
-* Display Accepted / Rejected result
+* Regular Expression input
+* Regular Expression to NFA conversion
+* NFA to DFA conversion
+* DFA transition table generation
+* DFA state visualization
+* Start state identification
+* Final/accepting state identification
+* Input string testing
+* Accepted / Rejected result
 * Interactive and user-friendly UI
 * Input validation and error handling
 * Responsive web interface
@@ -65,11 +65,11 @@ Regular Expression
 * CSS3
 * JavaScript
 
-### Concepts
+### Theory of Computation Concepts
 
 * Regular Expressions
+* Regular Languages
 * Finite Automata
-* ε-NFA
 * NFA
 * DFA
 * State Transitions
@@ -78,25 +78,23 @@ Regular Expression
 
 ---
 
-## Supported Regular Expression Concepts
+## Supported Regular Expression Operators
 
-The converter can be designed to work with common regular expression operators such as:
+| Operator      | Meaning     | Example  |
+| ------------- | ----------- | -------- |
+| `\|`          | OR / Union  | `a\|b`   |
+| `*`           | Kleene Star | `a*`     |
+| `+`           | One or more | `a+`     |
+| `()`          | Grouping    | `(a\|b)` |
+| Concatenation | Sequence    | `ab`     |
 
-| Operator      | Meaning     | Example    |     |    |
-| ------------- | ----------- | ---------- | --- | -- |
-| `             | `           | OR / Union | `a  | b` |
-| `*`           | Kleene Star | `a*`       |     |    |
-| `+`           | One or more | `a+`       |     |    |
-| `()`          | Grouping    | `(a        | b)` |    |
-| Concatenation | Sequence    | `ab`       |     |    |
-
-> Note: Supported operators depend on the implementation of the current version.
+> **Note:** The supported operators depend on the current implementation of the converter.
 
 ---
 
 ## Example
 
-### Input
+### Regular Expression
 
 ```text
 (a|b)*abb
@@ -112,7 +110,7 @@ Regular Expression
       DFA
 ```
 
-The generated DFA can then be used to test strings.
+The generated DFA can then be used to test input strings.
 
 ### Test String
 
@@ -126,7 +124,7 @@ abb
 Accepted
 ```
 
-Another example:
+Another test string:
 
 ```text
 abab
@@ -142,7 +140,9 @@ Rejected
 
 ## DFA Transition Table
 
-The application generates a transition table similar to:
+The application generates a DFA transition table based on the entered regular expression.
+
+Example format:
 
 | State | a  | b  |
 | ----- | -- | -- |
@@ -151,15 +151,15 @@ The application generates a transition table similar to:
 | q2    | q1 | q3 |
 | q3    | q1 | q0 |
 
-The exact states and transitions depend on the entered regular expression.
+> The actual states and transitions are generated dynamically according to the input regular expression.
 
 ---
 
 ## String Testing
 
-After generating the DFA, users can enter an input string.
+After generating the DFA, users can enter an input string to check whether it is accepted by the generated automaton.
 
-The application processes the string symbol by symbol using the DFA transition table.
+The application processes the input string symbol by symbol using the DFA transition table.
 
 ```text
 Start State
@@ -196,7 +196,7 @@ regular-expression-to-dfa/
     └── icons/
 ```
 
-> The actual structure may vary depending on the project implementation.
+> The project structure may vary depending on the current implementation.
 
 ---
 
@@ -208,7 +208,7 @@ regular-expression-to-dfa/
 git clone https://github.com/ShraddhaDusane/regular-expression-to-dfa.git
 ```
 
-### 2. Open the Project
+### 2. Navigate to the Project
 
 ```bash
 cd regular-expression-to-dfa
@@ -216,57 +216,35 @@ cd regular-expression-to-dfa
 
 ### 3. Run the Application
 
-Since this is a frontend web application, you can open:
+Open `index.html` directly in a web browser.
 
-```text
-index.html
-```
-
-directly in your browser.
-
-For the best development experience, use **Visual Studio Code + Live Server**.
+For development, you can use **Visual Studio Code with the Live Server extension**.
 
 ---
 
-## GitHub Pages Deployment
+## Live Demo
 
-This project can be deployed using **GitHub Pages**.
+**GitHub Pages:**
 
-### Steps
+https://ShraddhaDusane.github.io/regular-expression-to-dfa/
 
-1. Push the project to GitHub.
-2. Open the repository.
-3. Go to:
+> Replace the URL above with the actual GitHub Pages URL if GitHub provides a different URL.
 
-```text
-Settings → Pages
-```
+---
 
-4. Under **Build and deployment**, select:
+## Screenshots
 
-```text
-Deploy from a branch
-```
+### Home Page
 
-5. Select:
+![Home Page](https://github.com/user-attachments/assets/a8411c43-4035-44c3-aed1-0a4eb62c1b78)
 
-```text
-main
-```
+### DFA Transition Table
 
-6. Select:
+![DFA Transition Table](https://github.com/user-attachments/assets/c7959fa7-bb26-4233-b47e-13a6de6ba198)
 
-```text
-/ (root)
-```
+### String Testing
 
-7. Click **Save**.
-
-Your website will be available at:
-
-```text
-https://YOUR_USERNAME.github.io/regular-expression-to-dfa/
-```
+![String Testing](https://github.com/user-attachments/assets/d9ecfd6b-2ad4-4ca0-8a6e-bf22dec4b2f3)
 
 ---
 
@@ -282,21 +260,19 @@ This project helped in understanding:
 * State transitions
 * Automata theory
 * String acceptance
-* Frontend development
 * JavaScript programming
+* Frontend development
 * Problem solving
 
 ---
 
 ## Future Enhancements
 
-Possible improvements include:
-
 * Visual NFA generation
 * Animated DFA construction
 * Graphical state diagram
 * Step-by-step conversion
-* Support for more regular expression operators
+* Support for additional regular expression operators
 * Export DFA as an image
 * Export transition table as PDF
 * Dark/Light theme
@@ -315,38 +291,13 @@ This project can be useful for:
 * College mini projects
 * Learning Regular Expressions
 * Understanding NFA and DFA conversion
-* Demonstrating String Acceptance
-
----
-
-## Screenshots
-
-Add screenshots of your application here:
-
-```text
-docs/
-├── home.png
-├── dfa-table.png
-├── dfa-visualization.png
-└── string-testing.png
-```
-
-Example:
-
-```markdown
-![Home Page](docs/home.png)
-
-
-![DFA Transition Table](docs/dfa-table.png)
-
-![String Testing](docs/string-testing.png)
-```
+* Demonstrating string acceptance
 
 ---
 
 ## Project Status
 
-**Status:** Completed / Academic Mini Project
+**Completed**
 
 ---
 
@@ -356,19 +307,19 @@ Example:
 
 Computer Science and Engineering Student
 
-Interested in:
+**Areas of Interest:**
 
 * Software Development
 * Artificial Intelligence
 * Cybersecurity
 * Web Development
-* Computer Science Projects
+* Computer Science
 
 ---
 
 ## Acknowledgement
 
-This project was developed as part of a **Theory of Computation** academic project to practically understand Regular Expressions, NFA, DFA, and string acceptance.
+This project was developed as part of a **Theory of Computation** academic project to practically understand Regular Expressions, NFA, DFA, state transitions, and string acceptance.
 
 ---
 
